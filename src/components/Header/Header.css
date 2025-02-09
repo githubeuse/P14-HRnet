@@ -1,0 +1,25 @@
+.logo{
+    width: 125px;
+}
+
+.headerDiv, .logoDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.logoh1{
+    font-family: "Petit Formal Script", serif;
+}
+
+.firstPartLogo{
+    font-size: 60px;
+    font-weight: bold;
+    margin-right: -20px;
+}
+
+.secondPartLogo{
+    font-size: 30px;
+    margin-left: 0;
+}
