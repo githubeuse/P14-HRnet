@@ -11,28 +11,29 @@ function App() {
   // État pour gérer l'ouverture de la modale
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [resetForm, setResetForm] = useState(false);
+
   // Fonction pour fermer la modale
   const closeModal = () => {
     setIsModalOpen(false);
+    setResetForm(true);
   };
 
   return (
     <div className="appDiv">
       {/* En-tête de l'application */}
       <Header />
-      <h2>Create Employee</h2>
 
       {/* Lien vers la liste des employés */}
-      <Link to="/employeesList">View Current Employees</Link>
+      <Link className="linkToEmployeesList" to="/employeesList">View Current Employees</Link>
+
+      <h2>Create Employee</h2>
 
       {/* Formulaire pour créer un employé, ouvre la modale lors de la soumission */}
-      <Form onSubmit={() => setIsModalOpen(true)} />
-      
+      <Form onSubmit={() => setIsModalOpen(true)} resetForm={resetForm} setResetForm={setResetForm} />
+
       {/* Modale affichée lors de la création d'un employé */}
       <CustomModal isOpen={isModalOpen} onClose={closeModal} />
-      <h2>Documentation</h2>
-      <h2>Rapport de performance</h2>
-      <h2>Test</h2>
     </div>
   );
 }

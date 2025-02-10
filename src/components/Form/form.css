@@ -1,0 +1,53 @@
+.form, fieldset {
+    display: flex;
+    flex-direction: column;
+}
+.form input{
+    background-color: #93AD18;
+    border: 0.5px solid transparent;
+    color: white;
+    font-size: 1.2em;
+    font-family: Gilda Display;
+}  
+
+.form input:focus{
+    outline: none;
+    border: 0.5px solid #586D05;
+}
+
+.form{
+    padding-bottom: 50px;
+}
+
+fieldset{
+    padding: 5px;
+    border-color: #93AD18;
+    margin-top: 20px;
+}
+
+.form label,
+.form legend{
+    text-align: left;
+    padding-left: 5px;
+}
+
+#dateOfBirth,
+#startDate{
+    width: 98%;
+}
+.departmentLabel,
+.dateOfBirthLabel{
+    margin-top: 20px;
+}
+
+.form button{
+    margin-top: 20px;
+    background-color: #94ad188a;
+    border: transparent;
+
+}
+
+.form button:hover {
+    background-color: #94ad18cf;
+    border: transparent;
+}

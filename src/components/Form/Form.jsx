@@ -11,6 +11,8 @@ import { stateOptions } from "../../constants/stateOptions";
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
 import { format } from "date-fns";
 
+import "./Form.css";
+
 const Form = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -63,7 +65,7 @@ const Form = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="form" onSubmit={handleSubmit} >
       {/* 1 */}
       <label htmlFor="firstName">First Name</label>
       <input
@@ -72,7 +74,7 @@ const Form = ({ onSubmit }) => {
         name="firstName"
         value={formData.firstName}
         onChange={handleChange}
-      />
+        autoComplete="new-password"      />
       {/* 2 */}
       <label htmlFor="lastName">Last Name</label>
       <input
@@ -81,9 +83,11 @@ const Form = ({ onSubmit }) => {
         name="lastName"
         value={formData.lastName}
         onChange={handleChange}
+        autoComplete="new-password"
+
       />
       {/* 3 */}
-      <label htmlFor="dateOfBirth">Date of Birth</label>
+      <label htmlFor="dateOfBirth" className="dateOfBirthLabel">Date of Birth</label>
       <CustomDatePicker
         selected={formData.dateOfBirth}
         onChange={(date) => handleDateChange(date, "dateOfBirth")}
@@ -110,6 +114,7 @@ const Form = ({ onSubmit }) => {
           name="street"
           value={formData.street}
           onChange={handleChange}
+          autoComplete="new-password"
         />
         {/* 6 */}
         <label htmlFor="city">City</label>
@@ -119,6 +124,7 @@ const Form = ({ onSubmit }) => {
           name="city"
           value={formData.city}
           onChange={handleChange}
+          autoComplete="new-password"
         />
 
         {/* 7 */}
@@ -140,11 +146,12 @@ const Form = ({ onSubmit }) => {
           name="zipCode"
           value={formData.zipCode}
           onChange={handleChange}
+          autoComplete="new-password"
         />
       </fieldset>
 
       {/* 9 */}
-      <label htmlFor="department">Department</label>
+      <label htmlFor="department" className="departmentLabel">Department</label>
       <DropdownMenu
         inputId="department"
         options={departmentOptions}

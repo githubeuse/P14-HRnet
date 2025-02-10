@@ -1,0 +1,19 @@
+.clearButton{
+    color: red;
+    border: transparent;
+    margin-top: 100px;
+    display: none;
+}
+
+.clearButton:hover{
+    border: transparent;
+}
+
+.employeesListContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* height: 100vh;  */
+    font-family: Gilda Display;
+    overflow: auto;
+}
