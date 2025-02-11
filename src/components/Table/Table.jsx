@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
+import SearchBar from "../SearchBar/SearchBar";
+
 import "./Table.css";
 
 const Table = () => {
@@ -11,7 +13,6 @@ const Table = () => {
   const [sortedData, setSortedData] = useState([]);
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
-
 
   useEffect(() => {
     let formattedEmployees = employees.map((employee) => ({
@@ -79,15 +80,7 @@ const Table = () => {
           </select>{" "}
           entries
         </div>
-        <div>
-          <label htmlFor="search">Search:</label>
-          <input
-            id="search"
-            type="text"
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-          />
-        </div>
+        <SearchBar filterText={filterText} setFilterText={setFilterText} />
       </div>
       <table>
         <thead>
