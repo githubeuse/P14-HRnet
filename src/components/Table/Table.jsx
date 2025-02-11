@@ -63,7 +63,7 @@ const Table = () => {
 
   return (
     <div>
-      <div className="viewPerPageContainer">
+      <div className="upperContainer">
         <Pagination
           rowsPerPage={rowsPerPage}
           setRowsPerPage={setRowsPerPage}
@@ -72,12 +72,11 @@ const Table = () => {
           totalPages={totalPages}
           showRowsPerPage={true}
         />
-
         <SearchBar filterText={filterText} setFilterText={setFilterText} />
       </div>
       <table>
         <thead>
-          <tr>
+          <tr className="tableHeader">
             {[
               "firstName",
               "lastName",
@@ -137,15 +136,19 @@ const Table = () => {
           ))}
         </tbody>
       </table>
-
-            <Pagination
-        rowsPerPage={rowsPerPage}
-        setRowsPerPage={setRowsPerPage}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
-        showRowsPerPage={false}
-      />
+      <div className="bottomContainer">
+        <div className="entriesInfo">
+          Showing {startIndex + 1} to {Math.min(endIndex, sortedData.length)} of {sortedData.length} entries
+        </div>
+        <Pagination
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          showRowsPerPage={false}
+        />
+      </div>
     </div>
   );
 };

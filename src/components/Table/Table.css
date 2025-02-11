@@ -1,29 +1,56 @@
 .sortIcon {
-    color: gray;
-    cursor: pointer;
-  }
-  
-  .sortIcon.active {
-    color: black;
-  }
-  
-  .sortIconContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1;
-  }
-  
-  .thContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .paginationContainer,
-  .viewPerPageContainer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-  
+  color: gray;
+  cursor: pointer;
+  font-size: 8pt;
+  cursor: pointer;
+}
+
+.sortIcon.active {
+  color: black;
+}
+
+.sortIconContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.thContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tableHeader,
+.tableHeader th {
+  background-color: #94ad188a;
+  min-width: 130px;
+}
+
+.paginationContainer,
+.upperContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  align-items: baseline;
+  padding-bottom: 10px;
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.entriesInfo {
+  text-align: left;
+  width: 400px;
+}
+
+.bottomContainer{
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+}

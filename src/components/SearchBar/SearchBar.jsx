@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
+import "./SearchBar.css";
 
 const SearchBar = ({ filterText, setFilterText }) => {
   return (
-    <div>
+    <div className="searchBarContainer">
       <label htmlFor="search">Search:</label>
       <input
         id="search"

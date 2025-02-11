@@ -70,8 +70,5 @@ Pagination.propTypes = {
     showRowsPerPage: PropTypes.bool,
 };
 
-Pagination.defaultProps = {
-  showRowsPerPage: false,
-};
 
 export default Pagination;
