@@ -1,16 +1,14 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
+import PropTypes from "prop-types";
 import SearchBar from "../SearchBar/SearchBar";
 import Pagination from "../Pagination/Pagination";
 
 import "./Table.css";
 
 /**
- * Composant SearchBar pour filtrer les éléments affichés.
- * 
- * @param {string} filterText - Texte de filtrage actuel.
- * @param {function} setFilterText - Fonction pour mettre à jour le texte de filtrage.
+ * Composant Table pour afficher et gérer une table de données avec pagination et filtrage.
  */
 
 const Table = () => {
@@ -22,13 +20,27 @@ const Table = () => {
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
 
-//Utilisation de useEffect pour filtrer et trier les données à chaque changement des dépendances
+  //Utilisation de useEffect pour filtrer et trier les données à chaque changement des dépendances
   useEffect(() => {
+
+    console.log("🛠 useEffect déclenché");
+    console.log("📊 Employees récupérés :", employees);
+
     let formattedEmployees = employees.map((employee) => ({
       ...employee,
       startDate: format(new Date(employee.startDate), "MM/dd/yyyy"),
       dateOfBirth: format(new Date(employee.dateOfBirth), "MM/dd/yyyy"),
+
+      // ✅ Ajout de valeurs sécurisées pour éviter l'erreur React 31
+      value: employee.state?.value || "N/A",
+      label:
+        employee.department?.label ||
+        `${employee.firstName} ${employee.lastName}`,
+      abbreviation: employee.state?.abbreviation || "N/A",
     }));
+
+    console.log("📌 Employees formatés :", formattedEmployees);
+
 
     let filteredData = formattedEmployees.filter((item) =>
       Object.values(item).some(
@@ -38,11 +50,26 @@ const Table = () => {
       )
     );
 
+    console.log("🔍 Employees filtrés :", filteredData);
+
+
     if (sortColumn) {
       filteredData = filteredData.sort((a, b) => {
-        const aValue = a[sortColumn]?.toString().toLowerCase();
-        const bValue = b[sortColumn]?.toString().toLowerCase();
+        const aValue =
+        sortColumn === "state"
+          ? a.state?.abbreviation
+          : sortColumn === "department"
+          ? a.department?.value
+          : a[sortColumn];
 
+          const bValue =
+          sortColumn === "state"
+            ? b.state?.abbreviation
+            : sortColumn === "department"
+            ? b.department?.value
+            : b[sortColumn];
+    
+        
         if (aValue < bValue) {
           return sortDirection === "asc" ? -1 : 1;
         }
@@ -52,6 +79,7 @@ const Table = () => {
         return 0;
       });
     }
+    console.log("✅ Données finales triées :", filteredData);
 
     setSortedData(filteredData);
   }, [employees, filterText, sortColumn, sortDirection]);
@@ -72,6 +100,9 @@ const Table = () => {
   // Calcul du nombre total de pages
   const totalPages = Math.ceil(sortedData.length / rowsPerPage);
 
+  console.log("Table - sortedData reçu :", sortedData);
+  console.log("📌 Première entrée de sortedData :", sortedData[0]);
+
   return (
     <div>
       <div className="upperContainer">
@@ -85,71 +116,72 @@ const Table = () => {
         />
         <SearchBar filterText={filterText} setFilterText={setFilterText} />
       </div>
-      <table>
-        <thead>
-          <tr className="tableHeader">
-            {[
-              "firstName",
-              "lastName",
-              "startDate",
-              "department",
-              "dateOfBirth",
-              "street",
-              "city",
-              "state",
-              "zipCode",
-            ].map((column) => (
-              <th key={column} onClick={() => handleSort(column)}>
-                <div className="thContainer">
-                  <span>
-                    {column
-                      .replace(/([A-Z])/g, " $1")
-                      .replace(/^./, (str) => str.toUpperCase())}
-                  </span>
-                  <div className="sortIconContainer">
-                    <span
-                      className={`sortIcon ${
-                        sortColumn === column && sortDirection === "asc"
-                          ? "active"
-                          : ""
-                      }`}
-                    >
-                      ▲
+        <table>
+          <thead>
+            <tr className="tableHeader">
+              {[
+                "firstName",
+                "lastName",
+                "startDate",
+                "department",
+                "dateOfBirth",
+                "street",
+                "city",
+                "state",
+                "zipCode",
+              ].map((column) => (
+                <th key={column} onClick={() => handleSort(column)}>
+                  <div className="thContainer">
+                    <span>
+                      {column
+                        .replace(/([A-Z])/g, " $1")
+                        .replace(/^./, (str) => str.toUpperCase())}
                     </span>
-                    <span
-                      className={`sortIcon ${
-                        sortColumn === column && sortDirection === "desc"
-                          ? "active"
-                          : ""
-                      }`}
-                    >
-                      ▼
-                    </span>
+                    <div className="sortIconContainer">
+                      <span
+                        className={`sortIcon ${
+                          sortColumn === column && sortDirection === "asc"
+                            ? "active"
+                            : ""
+                        }`}
+                      >
+                        ▲
+                      </span>
+                      <span
+                        className={`sortIcon ${
+                          sortColumn === column && sortDirection === "desc"
+                            ? "active"
+                            : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {displayedData.map((employee, index) => (
-            <tr key={index}>
-              <td>{employee.firstName}</td>
-              <td>{employee.lastName}</td>
-              <td>{employee.startDate}</td>
-              <td>{employee.department}</td>
-              <td>{employee.dateOfBirth}</td>
-              <td>{employee.street}</td>
-              <td>{employee.city}</td>
-              <td>{employee.state}</td>
-              <td>{employee.zipCode}</td>
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {displayedData.map((employee, index) => (
+              <tr key={employee.id || index}>
+                <td>{employee.firstName}</td>
+                <td>{employee.lastName}</td>
+                <td>{employee.startDate}</td>
+                <td>{employee.department?.value ||"N/A"}</td>
+                <td>{employee.dateOfBirth}</td>
+                <td>{employee.street}</td>
+                <td>{employee.city}</td>
+                <td>{employee.state?.abbreviation || "N/A"}</td>
+                <td>{employee.zipCode}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       <div className="bottomContainer">
         <div className="entriesInfo">
-          Showing {startIndex + 1} to {Math.min(endIndex, sortedData.length)} of {sortedData.length} entries
+          Showing {startIndex + 1} to {Math.min(endIndex, sortedData.length)} of{" "}
+          {sortedData.length} entries
         </div>
         <Pagination
           rowsPerPage={rowsPerPage}
@@ -162,6 +194,22 @@ const Table = () => {
       </div>
     </div>
   );
+};
+
+Table.propTypes = {
+  employees: PropTypes.arrayOf(
+    PropTypes.shape({
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
+      department: PropTypes.string.isRequired,
+      dateOfBirth: PropTypes.string.isRequired,
+      street: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      state: PropTypes.string.isRequired,
+      zipCode: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default Table;
