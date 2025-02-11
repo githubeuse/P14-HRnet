@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import SearchBar from "../SearchBar/SearchBar";
+import Pagination from "../Pagination/Pagination";
 
 import "./Table.css";
 
@@ -63,23 +64,15 @@ const Table = () => {
   return (
     <div>
       <div className="viewPerPageContainer">
-        <div>
-          <label htmlFor="rowsPerPage">Show </label>
-          <select
-            id="rowsPerPage"
-            value={rowsPerPage}
-            onChange={(e) => {
-              setRowsPerPage(Number(e.target.value));
-              setCurrentPage(1);
-            }}
-          >
-            <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>{" "}
-          entries
-        </div>
+        <Pagination
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          showRowsPerPage={true}
+        />
+
         <SearchBar filterText={filterText} setFilterText={setFilterText} />
       </div>
       <table>
@@ -144,37 +137,15 @@ const Table = () => {
           ))}
         </tbody>
       </table>
-      <div className="paginationContainer">
-        <div>
-          Showing {startIndex + 1} to {Math.min(endIndex, sortedData.length)} of{" "}
-          {sortedData.length} entries
-        </div>
-        <div>
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => setCurrentPage(i + 1)}
-              disabled={currentPage === i + 1}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
-        </div>
-      </div>
+
+            <Pagination
+        rowsPerPage={rowsPerPage}
+        setRowsPerPage={setRowsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+        showRowsPerPage={false}
+      />
     </div>
   );
 };

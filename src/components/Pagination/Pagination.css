@@ -1,0 +1,22 @@
+.paginationContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .rowsPerPageSelector {
+    display: flex;
+    align-items: center;
+  }
+  
+  .paginationControls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .paginationControls button {
+    margin: 0 2px;
+  }
