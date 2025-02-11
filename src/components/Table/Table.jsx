@@ -57,18 +57,19 @@ const Table = () => {
       filteredData = filteredData.sort((a, b) => {
         const aValue =
         sortColumn === "state"
-          ? a.state?.abbreviation
+          ? (typeof a.state === "string" ? a.state : a.state?.abbreviation)
           : sortColumn === "department"
-          ? a.department?.value
+          ? (typeof a.department === "string" ? a.department : a.department?.value)
           : a[sortColumn];
-
-          const bValue =
-          sortColumn === "state"
-            ? b.state?.abbreviation
-            : sortColumn === "department"
-            ? b.department?.value
-            : b[sortColumn];
-    
+  
+      const bValue =
+        sortColumn === "state"
+          ? (typeof b.state === "string" ? b.state : b.state?.abbreviation)
+          : sortColumn === "department"
+          ? (typeof b.department === "string" ? b.department : b.department?.value)
+          : b[sortColumn];
+  
+      if (!aValue || !bValue) return 0; // Évite une erreur si une valeur est undefined
         
         if (aValue < bValue) {
           return sortDirection === "asc" ? -1 : 1;
@@ -168,11 +169,13 @@ const Table = () => {
                 <td>{employee.firstName}</td>
                 <td>{employee.lastName}</td>
                 <td>{employee.startDate}</td>
-                <td>{employee.department?.value ||"N/A"}</td>
+                {/* <td>{employee.department?.value || "N/A"}</td> */}
+                <td>{typeof employee.department === "object" ? employee.department.value : employee.department || "N/A"}</td>
                 <td>{employee.dateOfBirth}</td>
                 <td>{employee.street}</td>
                 <td>{employee.city}</td>
-                <td>{employee.state?.abbreviation || "N/A"}</td>
+                {/* <td>{employee.state?.abbreviation || "N/A"}</td> */}
+                <td>{typeof employee.state === "object" ? employee.state.abbreviation : employee.state || "N/A"}</td>
                 <td>{employee.zipCode}</td>
               </tr>
             ))}
