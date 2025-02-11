@@ -159,7 +159,7 @@ const Form = ({ onSubmit }) => {
         onChange={handleDropdownChange}
         name="department"
       />
-      <button type="submit">Save</button>
+      <button type="submit" className="submitButton">Save</button>
     </form>
   );
 };

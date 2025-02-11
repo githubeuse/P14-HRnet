@@ -1,5 +1,6 @@
 .logo{
     width: 125px;
+    height: 106px;
 }
 
 .headerDiv, .logoDiv{
@@ -10,8 +11,9 @@
 
 
 .logoh1{
-    font-family: "Petit Formal Script", serif;
+    font-family: serif;
     margin-block: 0.5em;
+    font-family: "Petit Formal Script", serif;
 }
 
 .firstPartLogo{

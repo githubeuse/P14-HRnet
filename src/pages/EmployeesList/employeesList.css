@@ -1,19 +1,31 @@
-.clearButton{
-    color: red;
-    border: transparent;
-    margin-top: 100px;
-    display: none;
+.clearButton {
+  color: white;
+  border: transparent;
+  background-color: transparent;
+  margin-top: 150px;
+  display: none;
 }
 
-.clearButton:hover{
-    border: transparent;
+.clearButton:hover {
+  border: transparent;
 }
 
-.employeesListContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    /* height: 100vh;  */
+.employeesListContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: auto;
+}
+
+.currentEmployeesTitle{
     font-family: Gilda Display;
-    overflow: auto;
+}
+
+.homeLink {
+  margin: 25px;
+  font-weight: bold;
+}
+
+.employeesListContainer h2{
+  margin-block-end: 0;
 }

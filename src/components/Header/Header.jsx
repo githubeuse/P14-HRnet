@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import logo_hrnet from "../../assets/logo_hrnet.jpg";
+import logo_hrnet from "../../assets/logo_hrnet.webp";
 import "./Header.css";
 
 /**

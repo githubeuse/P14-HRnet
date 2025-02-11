@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
 import Table from "../../components/Table/Table";
@@ -53,10 +54,11 @@ const EmployeesList = () => {
   return (
     <div className="employeesListContainer">
       <Header />
-      <h2>Current Employees</h2>
+      <h2 className="currentEmployeesTitle">Current Employees</h2>
       <div className="tableContainer">
         <Table columns={columns} data={employees} />
       </div>
+      <Link to="/"><span className="homeLink">Home</span></Link>
       <button className="clearButton" onClick={handleClear}> Effacer</button>
     </div>
   );
