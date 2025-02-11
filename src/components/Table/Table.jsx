@@ -22,25 +22,15 @@ const Table = () => {
 
   //Utilisation de useEffect pour filtrer et trier les données à chaque changement des dépendances
   useEffect(() => {
-
-    console.log("🛠 useEffect déclenché");
-    console.log("📊 Employees récupérés :", employees);
-
     let formattedEmployees = employees.map((employee) => ({
       ...employee,
       startDate: format(new Date(employee.startDate), "MM/dd/yyyy"),
       dateOfBirth: format(new Date(employee.dateOfBirth), "MM/dd/yyyy"),
 
-      // ✅ Ajout de valeurs sécurisées pour éviter l'erreur React 31
       value: employee.state?.value || "N/A",
-      label:
-        employee.department?.label ||
-        `${employee.firstName} ${employee.lastName}`,
+      label: employee.department?.label || `${employee.firstName} ${employee.lastName}`,
       abbreviation: employee.state?.abbreviation || "N/A",
     }));
-
-    console.log("📌 Employees formatés :", formattedEmployees);
-
 
     let filteredData = formattedEmployees.filter((item) =>
       Object.values(item).some(
@@ -49,9 +39,6 @@ const Table = () => {
           value.toString().toLowerCase().includes(filterText.toLowerCase())
       )
     );
-
-    console.log("🔍 Employees filtrés :", filteredData);
-
 
     if (sortColumn) {
       filteredData = filteredData.sort((a, b) => {
@@ -80,7 +67,6 @@ const Table = () => {
         return 0;
       });
     }
-    console.log("✅ Données finales triées :", filteredData);
 
     setSortedData(filteredData);
   }, [employees, filterText, sortColumn, sortDirection]);
@@ -100,9 +86,6 @@ const Table = () => {
 
   // Calcul du nombre total de pages
   const totalPages = Math.ceil(sortedData.length / rowsPerPage);
-
-  console.log("Table - sortedData reçu :", sortedData);
-  console.log("📌 Première entrée de sortedData :", sortedData[0]);
 
   return (
     <div>
