@@ -1,6 +1,13 @@
 import PropTypes from "prop-types";
 import "./SearchBar.css";
 
+/**
+ * Composant SearchBar pour filtrer les éléments affichés.
+ * 
+ * @param {string} filterText - Texte de filtrage actuel.
+ * @param {function} setFilterText - Fonction pour mettre à jour le texte de filtrage.
+ */
+
 const SearchBar = ({ filterText, setFilterText }) => {
   return (
     <div className="searchBarContainer">

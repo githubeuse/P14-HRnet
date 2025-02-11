@@ -1,6 +1,18 @@
 import PropTypes from "prop-types";
 import "./Pagination.css";
 
+
+/**
+ * Composant Pagination pour gérer la pagination des données.
+ * 
+ * @param {number} rowsPerPage - Nombre de lignes par page.
+ * @param {function} setRowsPerPage - Fonction pour définir le nombre de lignes par page.
+ * @param {number} currentPage - Page actuelle.
+ * @param {function} setCurrentPage - Fonction pour définir la page actuelle.
+ * @param {number} totalPages - Nombre total de pages.
+ * @param {boolean} showRowsPerPage - Indique si l'option pour afficher les lignes par page est visible.
+ */
+
 const Pagination = ({
   rowsPerPage,
   setRowsPerPage,

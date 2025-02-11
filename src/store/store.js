@@ -20,7 +20,7 @@ const loadState = () => {
     }
 }
 
-// Précharger l'état initial avec les employés chargés depuis le localStorage.
+// Précharge l'état initial avec les employés chargés depuis le localStorage.
 
 const preloadedState = {
     employees: loadState() || [],

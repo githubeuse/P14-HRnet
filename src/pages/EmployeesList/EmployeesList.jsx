@@ -6,6 +6,13 @@ import Header from "../../components/Header/Header";
 
 import { clearEmployees } from "../../store/features/employees/employeesSlice";
 
+/**
+ * Composant EmployeesList pour afficher la liste des employés.
+ * 
+ * Ce composant inclut un en-tête, une table pour afficher les employés,
+ * un lien vers la page d'accueil et un bouton pour effacer tous les employés.
+ */
+
 const EmployeesList = () => {
   const dispatch = useDispatch();
 

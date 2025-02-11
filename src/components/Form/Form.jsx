@@ -13,6 +13,12 @@ import { format } from "date-fns";
 
 import "./Form.css";
 
+/**
+ * Composant Form pour gérer l'ajout d'un employé.
+ * 
+ * @param {function} onSubmit - Fonction appelée lors de la soumission du formulaire.
+ */
+
 const Form = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -57,7 +63,7 @@ const Form = ({ onSubmit }) => {
     e.preventDefault();
     const formattedData = {
       ...formData,
-      dateOfBirth: format(formData.dateOfBirth, "yyyy-MM-dd"), // Convertir en chaîne de caractères
+      dateOfBirth: format(formData.dateOfBirth, "yyyy-MM-dd"),
       startDate: format(formData.startDate, "yyyy-MM-dd"),
     };
     dispatch(addEmployee(formattedData));

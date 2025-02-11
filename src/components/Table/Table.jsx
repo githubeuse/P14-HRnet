@@ -6,6 +6,13 @@ import Pagination from "../Pagination/Pagination";
 
 import "./Table.css";
 
+/**
+ * Composant SearchBar pour filtrer les éléments affichés.
+ * 
+ * @param {string} filterText - Texte de filtrage actuel.
+ * @param {function} setFilterText - Fonction pour mettre à jour le texte de filtrage.
+ */
+
 const Table = () => {
   const employees = useSelector((state) => state.employees);
   const [filterText, setFilterText] = useState("");
@@ -15,6 +22,7 @@ const Table = () => {
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
 
+//Utilisation de useEffect pour filtrer et trier les données à chaque changement des dépendances
   useEffect(() => {
     let formattedEmployees = employees.map((employee) => ({
       ...employee,
@@ -48,6 +56,7 @@ const Table = () => {
     setSortedData(filteredData);
   }, [employees, filterText, sortColumn, sortDirection]);
 
+  //Fonction pour gérer le tri des colonnes
   const handleSort = (column) => {
     const direction =
       sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
@@ -55,10 +64,12 @@ const Table = () => {
     setSortDirection(direction);
   };
 
+  // Calcul des indices de début et de fin pour la pagination
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const displayedData = sortedData.slice(startIndex, endIndex);
 
+  // Calcul du nombre total de pages
   const totalPages = Math.ceil(sortedData.length / rowsPerPage);
 
   return (

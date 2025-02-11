@@ -6,8 +6,15 @@ import "./Header.css";
 /**
  * Le composant Header affiche l'en-tête de l'application avec le logo et le titre.
  * Il inclut également un lien vers la page d'accueil.
+ * 
+ * Classes CSS utilisées :
+ * - headerDiv : Conteneur principal de l'en-tête.
+ * - logoDiv : Conteneur du logo et du titre.
+ * - logo : Style de l'image du logo.
+ * - logoh1 : Style du titre
+ * - firstPartLogo : Style de la première partie du titre.
+ * - secondPartLogo : Style de la deuxième partie du titre.
  */
-
 const Header = () => {
   return (
     <div className="headerDiv">
