@@ -1,0 +1,29 @@
+.sortIcon {
+    color: gray;
+    cursor: pointer;
+  }
+  
+  .sortIcon.active {
+    color: black;
+  }
+  
+  .sortIconContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+  }
+  
+  .thContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .paginationContainer,
+  .viewPerPageContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  

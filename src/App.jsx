@@ -25,7 +25,7 @@ function App() {
       <Header />
 
       {/* Lien vers la liste des employés */}
-      <Link className="linkToEmployeesList" to="/employeesList">View Current Employees</Link>
+      <Link className="linkToEmployeesList" to="/EmployeesList">View Current Employees</Link>
 
       <h2>Create Employee</h2>
 

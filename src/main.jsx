@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import store from "./store/store.js";
 import "./index.css";
 import App from "./App.jsx";
-import EmployeesList from "./pages/employeesList/employeesList.jsx";
+import EmployeesList from "./pages/EmployeesList/EmployeesList.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")).render(
       <Router>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/employeesList" element={<EmployeesList />} />
+          <Route path="/EmployeesList" element={<EmployeesList />} />
         </Routes>
       </Router>
     </Provider>

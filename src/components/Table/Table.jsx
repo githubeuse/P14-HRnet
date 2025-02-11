@@ -1,118 +1,189 @@
-import DataTable from "react-data-table-component";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import Pagination from "../Pagination/Pagination";
-import EntriesInfo from "../EntriesInfo/EntriesInfo";
+import { format } from "date-fns";
+import "./Table.css";
 
-/**
- * Composant Table pour afficher une liste d'employés sous forme de tableau.
- * Utilise le composant react-data-table-component pour le rendu du tableau.
- *
- * @param {Array} columns - Les colonnes du tableau.
- * @param {Array} data - Les données à afficher dans le tableau.
- */
-
-const Table = ({ columns, data }) => {
+const Table = () => {
+  const employees = useSelector((state) => state.employees);
   const [filterText, setFilterText] = useState("");
-
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [displayedData, setDisplayedData] = useState([]);
+  const [sortedData, setSortedData] = useState([]);
+  const [sortColumn, setSortColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
+
 
   useEffect(() => {
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    setDisplayedData(data.slice(startIndex, endIndex));
-  }, [data, rowsPerPage, currentPage]);
+    let formattedEmployees = employees.map((employee) => ({
+      ...employee,
+      startDate: format(new Date(employee.startDate), "MM/dd/yyyy"),
+      dateOfBirth: format(new Date(employee.dateOfBirth), "MM/dd/yyyy"),
+    }));
 
-  const filteredItems = displayedData.filter((item) =>
-    Object.values(item).some(
-      (value) =>
-        value &&
-        value.toString().toLowerCase().includes(filterText.toLowerCase())
-    )
-  );
+    let filteredData = formattedEmployees.filter((item) =>
+      Object.values(item).some(
+        (value) =>
+          value &&
+          value.toString().toLowerCase().includes(filterText.toLowerCase())
+      )
+    );
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+    if (sortColumn) {
+      filteredData = filteredData.sort((a, b) => {
+        const aValue = a[sortColumn]?.toString().toLowerCase();
+        const bValue = b[sortColumn]?.toString().toLowerCase();
 
-  const subHeaderComponent = (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        width: "100%",
-      }}
-    >
-      <div>
-        <label htmlFor="rowsPerPage">Show </label>
-        <select
-          id="rowsPerPage"
-          value={rowsPerPage}
-          onChange={(e) => {
-            const newRowsPerPage = Number(e.target.value);
-            setRowsPerPage(newRowsPerPage);
-            setResetPaginationToggle(!resetPaginationToggle);
-          }}
-        >
-          <option value={10}>10</option>
-          <option value={25}>25</option>
-          <option value={50}>50</option>
-          <option value={100}>100</option>
-        </select>{" "}
-        entries
+        if (aValue < bValue) {
+          return sortDirection === "asc" ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortDirection === "asc" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
+    setSortedData(filteredData);
+  }, [employees, filterText, sortColumn, sortDirection]);
+
+  const handleSort = (column) => {
+    const direction =
+      sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+    setSortColumn(column);
+    setSortDirection(direction);
+  };
+
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const displayedData = sortedData.slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(sortedData.length / rowsPerPage);
+
+  return (
+    <div>
+      <div className="viewPerPageContainer">
+        <div>
+          <label htmlFor="rowsPerPage">Show </label>
+          <select
+            id="rowsPerPage"
+            value={rowsPerPage}
+            onChange={(e) => {
+              setRowsPerPage(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+          >
+            <option value={10}>10</option>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </select>{" "}
+          entries
+        </div>
+        <div>
+          <label htmlFor="search">Search:</label>
+          <input
+            id="search"
+            type="text"
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+          />
+        </div>
       </div>
-      <div
-        className="searchZone"
-        style={{ display: "flex", alignItems: "baseline" }}
-      >
-        <label htmlFor="search">Search:</label>
-        <input
-          id="search"
-          type="text"
-          placeholder=""
-          name="search"
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-          style={{ marginBottom: "10px", padding: "5px", width: "200px" }}
-        />
+      <table>
+        <thead>
+          <tr>
+            {[
+              "firstName",
+              "lastName",
+              "startDate",
+              "department",
+              "dateOfBirth",
+              "street",
+              "city",
+              "state",
+              "zipCode",
+            ].map((column) => (
+              <th key={column} onClick={() => handleSort(column)}>
+                <div className="thContainer">
+                  <span>
+                    {column
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/^./, (str) => str.toUpperCase())}
+                  </span>
+                  <div className="sortIconContainer">
+                    <span
+                      className={`sortIcon ${
+                        sortColumn === column && sortDirection === "asc"
+                          ? "active"
+                          : ""
+                      }`}
+                    >
+                      ▲
+                    </span>
+                    <span
+                      className={`sortIcon ${
+                        sortColumn === column && sortDirection === "desc"
+                          ? "active"
+                          : ""
+                      }`}
+                    >
+                      ▼
+                    </span>
+                  </div>
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {displayedData.map((employee, index) => (
+            <tr key={index}>
+              <td>{employee.firstName}</td>
+              <td>{employee.lastName}</td>
+              <td>{employee.startDate}</td>
+              <td>{employee.department}</td>
+              <td>{employee.dateOfBirth}</td>
+              <td>{employee.street}</td>
+              <td>{employee.city}</td>
+              <td>{employee.state}</td>
+              <td>{employee.zipCode}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="paginationContainer">
+        <div>
+          Showing {startIndex + 1} to {Math.min(endIndex, sortedData.length)} of{" "}
+          {sortedData.length} entries
+        </div>
+        <div>
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              onClick={() => setCurrentPage(i + 1)}
+              disabled={currentPage === i + 1}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
-
-  return (
-    <>
-      <DataTable
-        columns={columns}
-        data={filteredItems}
-        subHeader
-        subHeaderComponent={subHeaderComponent}
-      />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <EntriesInfo
-          currentPage={currentPage}
-          rowsPerPage={rowsPerPage}
-          totalEntries={data.length}
-        />
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      </div>
-    </>
-  );
-};
-
-Table.propTypes = {
-  columns: PropTypes.array.isRequired,
-  data: PropTypes.array.isRequired,
 };
 
 export default Table;
