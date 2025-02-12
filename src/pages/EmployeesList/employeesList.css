@@ -1,8 +1,9 @@
-.clearButton {
-    color: red;
+.clearButton, .homeLink {
+    color: black;
     border: transparent;
     background-color: transparent;
     margin-top: 150px;
+    text-decoration: underline;
   }
   
   .clearButton:hover {
