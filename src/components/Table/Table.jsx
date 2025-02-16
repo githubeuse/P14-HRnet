@@ -28,7 +28,9 @@ const Table = () => {
       dateOfBirth: format(new Date(employee.dateOfBirth), "MM/dd/yyyy"),
 
       value: employee.state?.value || "N/A",
-      label: employee.department?.label || `${employee.firstName} ${employee.lastName}`,
+      label:
+        employee.department?.label ||
+        `${employee.firstName} ${employee.lastName}`,
       abbreviation: employee.state?.abbreviation || "N/A",
     }));
 
@@ -43,21 +45,29 @@ const Table = () => {
     if (sortColumn) {
       filteredData = filteredData.sort((a, b) => {
         const aValue =
-        sortColumn === "state"
-          ? (typeof a.state === "string" ? a.state : a.state?.abbreviation)
-          : sortColumn === "department"
-          ? (typeof a.department === "string" ? a.department : a.department?.value)
-          : a[sortColumn];
-  
-      const bValue =
-        sortColumn === "state"
-          ? (typeof b.state === "string" ? b.state : b.state?.abbreviation)
-          : sortColumn === "department"
-          ? (typeof b.department === "string" ? b.department : b.department?.value)
-          : b[sortColumn];
-  
-      if (!aValue || !bValue) return 0; // Évite une erreur si une valeur est undefined
-        
+          sortColumn === "state"
+            ? typeof a.state === "string"
+              ? a.state
+              : a.state?.abbreviation
+            : sortColumn === "department"
+            ? typeof a.department === "string"
+              ? a.department
+              : a.department?.value
+            : a[sortColumn];
+
+        const bValue =
+          sortColumn === "state"
+            ? typeof b.state === "string"
+              ? b.state
+              : b.state?.abbreviation
+            : sortColumn === "department"
+            ? typeof b.department === "string"
+              ? b.department
+              : b.department?.value
+            : b[sortColumn];
+
+        if (!aValue || !bValue) return 0; // Évite une erreur si une valeur est undefined
+
         if (aValue < bValue) {
           return sortDirection === "asc" ? -1 : 1;
         }
@@ -100,70 +110,82 @@ const Table = () => {
         />
         <SearchBar filterText={filterText} setFilterText={setFilterText} />
       </div>
-        <table>
-          <thead>
-            <tr className="tableHeader">
-              {[
-                "firstName",
-                "lastName",
-                "startDate",
-                "department",
-                "dateOfBirth",
-                "street",
-                "city",
-                "state",
-                "zipCode",
-              ].map((column) => (
-                <th key={column} onClick={() => handleSort(column)}>
-                  <div className="thContainer">
-                    <span>
-                      {column
-                        .replace(/([A-Z])/g, " $1")
-                        .replace(/^./, (str) => str.toUpperCase())}
+
+      <table>
+        <thead>
+          <tr className="tableHeader">
+            {[
+              "firstName",
+              "lastName",
+              "startDate",
+              "department",
+              "dateOfBirth",
+              "street",
+              "city",
+              "state",
+              "zipCode",
+            ].map((column) => (
+              <th key={column} onClick={() => handleSort(column)}>
+                <div className="thContainer">
+                  <span>
+                    {column
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/^./, (str) => str.toUpperCase())}
+                  </span>
+                  <div className="sortIconContainer">
+                    <span
+                      className={`sortIcon ${
+                        sortColumn === column && sortDirection === "asc"
+                          ? "active"
+                          : ""
+                      }`}
+                    >
+                      ▲
                     </span>
-                    <div className="sortIconContainer">
-                      <span
-                        className={`sortIcon ${
-                          sortColumn === column && sortDirection === "asc"
-                            ? "active"
-                            : ""
-                        }`}
-                      >
-                        ▲
-                      </span>
-                      <span
-                        className={`sortIcon ${
-                          sortColumn === column && sortDirection === "desc"
-                            ? "active"
-                            : ""
-                        }`}
-                      >
-                        ▼
-                      </span>
-                    </div>
+                    <span
+                      className={`sortIcon ${
+                        sortColumn === column && sortDirection === "desc"
+                          ? "active"
+                          : ""
+                      }`}
+                    >
+                      ▼
+                    </span>
                   </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {displayedData.map((employee, index) => (
-              <tr key={employee.id || index}>
-                <td>{employee.firstName}</td>
-                <td>{employee.lastName}</td>
-                <td>{employee.startDate}</td>
-                {/* <td>{employee.department?.value || "N/A"}</td> */}
-                <td>{typeof employee.department === "object" ? employee.department.value : employee.department || "N/A"}</td>
-                <td>{employee.dateOfBirth}</td>
-                <td>{employee.street}</td>
-                <td>{employee.city}</td>
-                {/* <td>{employee.state?.abbreviation || "N/A"}</td> */}
-                <td>{typeof employee.state === "object" ? employee.state.abbreviation : employee.state || "N/A"}</td>
-                <td>{employee.zipCode}</td>
-              </tr>
+                </div>
+              </th>
             ))}
-          </tbody>
-        </table>
+          </tr>
+        </thead>
+        <tbody className="tableBody">
+          {sortedData.length === 0 && (
+            <div className="noResults">❌ No data available in table</div>
+          )}
+          {displayedData.map((employee, index) => (
+            <tr key={employee.id || index}>
+              <td>{employee.firstName}</td>
+              <td>{employee.lastName}</td>
+              <td>{employee.startDate}</td>
+              {/* <td>{employee.department?.value || "N/A"}</td> */}
+              <td>
+                {typeof employee.department === "object"
+                  ? employee.department.value
+                  : employee.department || "N/A"}
+              </td>
+              <td>{employee.dateOfBirth}</td>
+              <td>{employee.street}</td>
+              <td>{employee.city}</td>
+              {/* <td>{employee.state?.abbreviation || "N/A"}</td> */}
+              <td>
+                {typeof employee.state === "object"
+                  ? employee.state.abbreviation
+                  : employee.state || "N/A"}
+              </td>
+              <td>{employee.zipCode}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <div className="bottomContainer">
         <div className="entriesInfo">
           Showing {startIndex + 1} to {Math.min(endIndex, sortedData.length)} of{" "}
