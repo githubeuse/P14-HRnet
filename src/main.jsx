@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import store from "./store/store.js";
-import "./index.css";
+import "./main.css";
 import App from "./App.jsx";
 import EmployeesList from "./pages/EmployeesList/EmployeesList.jsx";
 

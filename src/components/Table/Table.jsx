@@ -159,7 +159,9 @@ const Table = () => {
         </thead>
         <tbody className="tableBody">
           {sortedData.length === 0 && (
-            <div className="noResults">❌ No data available in table</div>
+            <tr>
+            <td className="noResults">❌ No data available in table</td>
+            </tr>
           )}
           {displayedData.map((employee, index) => (
             <tr key={employee.id || index}>

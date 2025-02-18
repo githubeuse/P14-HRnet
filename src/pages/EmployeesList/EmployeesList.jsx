@@ -23,6 +23,7 @@ const EmployeesList = () => {
   return (
     <div>
       <Header />
+      <h2>Current Employees</h2>
       <Table />
       <Link to="/">
         <span className="homeLink">Home</span>
