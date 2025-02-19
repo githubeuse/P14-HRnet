@@ -29,8 +29,7 @@ const Table = () => {
 
       value: employee.state?.value || "N/A",
       label:
-        employee.department?.label ||
-        `${employee.firstName} ${employee.lastName}`,
+        employee.department?.label || "N/A",
       abbreviation: employee.state?.abbreviation || "N/A",
     }));
 
