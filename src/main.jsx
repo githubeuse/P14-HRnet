@@ -14,6 +14,7 @@ createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/EmployeesList" element={<EmployeesList />} />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </Router>
     </Provider>

@@ -66,7 +66,7 @@ const Table = () => {
               : b.department?.value
             : b[sortColumn];
 
-        if (!aValue || !bValue) return 0; // Évite une erreur si une valeur est undefined
+        if (!aValue || !bValue) return 0; 
 
         if (aValue < bValue) {
           return sortDirection === "asc" ? -1 : 1;
@@ -168,7 +168,6 @@ const Table = () => {
               <td>{employee.firstName}</td>
               <td>{employee.lastName}</td>
               <td>{employee.startDate}</td>
-              {/* <td>{employee.department?.value || "N/A"}</td> */}
               <td>
                 {typeof employee.department === "object"
                   ? employee.department.value
@@ -177,7 +176,6 @@ const Table = () => {
               <td>{employee.dateOfBirth}</td>
               <td>{employee.street}</td>
               <td>{employee.city}</td>
-              {/* <td>{employee.state?.abbreviation || "N/A"}</td> */}
               <td>
                 {typeof employee.state === "object"
                   ? employee.state.abbreviation

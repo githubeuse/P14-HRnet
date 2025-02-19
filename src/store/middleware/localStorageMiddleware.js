@@ -9,7 +9,6 @@ const localStorageMiddleware = store => next => action => {
 
     // Récupérer l'état actuel du store
     const state = store.getState();
-    // console.log('saving state to localSTorage', state.employees)
     
     // Sauvegarder l'état des employés dans le localStorage
     localStorage.setItem('employees', JSON.stringify(state.employees));
